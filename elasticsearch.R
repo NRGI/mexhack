@@ -141,11 +141,7 @@ for(term in multi_search_term_vector) {
   query_list[[term_title]] <- paste0('{
     "min_score": ',multi_search_cutoff,',
     "query": {
-      "filtered": {
-        "filter": {
-          "term": {"pdf_text_string": "',term,'"}
-        }
-      }
+      "match": {"pdf_text_string": "',term,'"}
     },
     "aggregations": {
       "year_agg": {
@@ -157,26 +153,6 @@ for(term in multi_search_term_vector) {
     }
   }')
 }
-
-body <- '{
-    "min_score": 0.2,
-    "query": {
-      "filtered": {
-        "filter": {
-          "term": {"pdf_text_string": "response_local_content"}
-        }
-      }
-    },
-    "aggregations": {
-      "year_agg": {
-        "terms": {
-          "field": "signature_year",
-          "size": 0
-        }
-      }
-    }
-  }'
-
 rm(term, term_title)
 # body <- '{
 #     "min_score": 0.2,
